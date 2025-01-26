@@ -10,7 +10,7 @@ from utils.datasets import (
     get_notMNIST,
 )
 
-
+device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 def prepare_ood_datasets(true_dataset, ood_dataset):
     # Preprocess OoD dataset same as true dataset
     ood_dataset.transform = true_dataset.transform
@@ -37,8 +37,8 @@ def loop_over_dataloader(model, dataloader):
         scores = []
         accuracies = []
         for data, target in dataloader:
-            data = data.cuda()
-            target = target.cuda()
+            data = data.to(device)
+            target = target.to(device)
 
             output = model(data)
             kernel_distance, pred = output.max(1)

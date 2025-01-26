@@ -19,7 +19,7 @@ from utils.resnet_duq import ResNet_DUQ
 from utils.datasets import all_datasets
 from utils.evaluate_ood import get_cifar_svhn_ood, get_auroc_classification
 
-
+device = torch.device('cuda:1' if torch.cuda.is_available() else 'cpu')
 def main(
     architecture,
     batch_size,
@@ -74,7 +74,7 @@ def main(
 
     if centroid_size is None:
         centroid_size = model_output_size
-
+# 521
     model = ResNet_DUQ(
         feature_extractor,
         num_classes,
@@ -83,7 +83,7 @@ def main(
         length_scale,
         gamma,
     )
-    model = model.cuda()
+    model = model.to(device)
 
     optimizer = torch.optim.SGD(
         model.parameters(), lr=learning_rate, momentum=0.9, weight_decay=weight_decay
@@ -122,7 +122,7 @@ def main(
         optimizer.zero_grad()
 
         x, y = batch
-        x, y = x.cuda(), y.cuda()
+        x, y = x.to(device), y.to(device)
 
         x.requires_grad_(True)
 
@@ -151,7 +151,7 @@ def main(
         model.eval()
 
         x, y = batch
-        x, y = x.cuda(), y.cuda()
+        x, y = x.to(device), y.to(device)
 
         x.requires_grad_(True)
 
@@ -255,7 +255,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--architecture",
-        default="ResNet18",
+        default="WRN",
         choices=["ResNet18", "WRN"],
         help="Pick an architecture (default: ResNet18)",
     )
