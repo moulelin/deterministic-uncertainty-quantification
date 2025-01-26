@@ -69,7 +69,7 @@ def get_CIFAR10(root="./"):
         ]
     )
     train_dataset = datasets.CIFAR10(
-        root + "data/CIFAR10", train=True, transform=train_transform, download=True
+        root + "data", train=True, transform=train_transform, download=True
     )
 
     test_transform = transforms.Compose(
