@@ -79,7 +79,7 @@ def get_CIFAR10(root="./"):
         ]
     )
     test_dataset = datasets.CIFAR10(
-        root + "data/CIFAR10", train=False, transform=test_transform, download=True
+        root + "data", train=False, transform=test_transform, download=True
     )
 
     return input_size, num_classes, train_dataset, test_dataset
